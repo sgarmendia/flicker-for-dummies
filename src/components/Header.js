@@ -9,9 +9,9 @@ class Header extends Component {
         <input className='searchBox' 
                type='search'
                autofocus='autofocus'
-               placeholder='Enter search term'
+               placeholder='Explore the world...'
                onChange={this.props.search}
-        ></input>
+        />
       </div>
     );
   }
