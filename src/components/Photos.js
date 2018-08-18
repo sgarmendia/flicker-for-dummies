@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import moduleName from './../css/Photos.css';
 
 class Photos extends Component {
   render() {
