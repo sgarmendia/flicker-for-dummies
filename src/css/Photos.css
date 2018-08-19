@@ -10,7 +10,20 @@
   height: 300px;
   cursor: pointer;
   box-shadow:0 10px 6px -6px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -webkit-transition: transform 1s;
+  transition: transform 1s;
 }
+
+.photoContainer img.imgeven:hover{
+  -webkit-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
+.photoContainer img.imgodd:hover{
+  -webkit-transform: rotateX(360deg);
+  transform: rotateZ(360deg);
+}
+
 
 @media only screen and (min-width: 500px) {
   .photoContainer img {

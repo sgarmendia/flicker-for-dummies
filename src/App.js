@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import Photos from './components/Photos';
 import Header from './components/Header';
+import Overlay from './components/Overlay';
 
 class App extends Component {
   constructor(props) {
     super(props);
       this.state = {
         photos: [],
+        overlay: false,
         err: null,
       }
   }
 
   componentDidMount() {
-    //const url = `https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=${process.env.REACT_APP_API_KEY}&format=json&nojsoncallback=1`
     this.fetchPhotos('landscape')
   }
 
@@ -34,13 +35,31 @@ class App extends Component {
     }, 1000)
   }
 
+  handleClickPhoto = e => {
+    console.log(e.target.src);
+    this.setState({ overlay: true, photo: e.target.src })
+  }
+
+  handleHidePhoto = () => {
+    this.setState({ overlay: false, photo: undefined })
+  }
+
   render() {
     return (
       <div className='container'>
         <Header search={this.handleSearch} />
         {this.state.err
           ? <h2>Oops, something went wrong!</h2>
-          : <Photos photos={this.state.photos && this.state.photos.photo} />}
+          : <Photos 
+              photos={this.state.photos && this.state.photos.photo}
+              selected={this.handleClickPhoto} 
+            />
+        }
+        <Overlay 
+          photo={this.state.photo} 
+          display={this.state.overlay}
+          unselect={this.handleHidePhoto}
+        />
       </div>
     )
   }
