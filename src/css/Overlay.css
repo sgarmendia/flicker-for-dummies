@@ -18,5 +18,20 @@
   font-size: 50px;
   color: white;
   transform: translate(-50%,-50%);
-  -ms-transform: translate(-50%,-50%);
+  -webkit-transform: translate(-50%,-50%);
 }
+
+.overlayTitle , .overlayDate , .overlayOwner , .overlayInfo{
+  text-align: center;
+  color: white;
+  font-size: 1em;
+  /* font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace; */
+  font-family: 'Special Elite', cursive;
+}
+
+.overlayInfo{
+  width:100%;
+  position: absolute;
+  bottom: 0;
+}
+

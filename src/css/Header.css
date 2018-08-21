@@ -24,6 +24,6 @@
   border-bottom: 2px solid rgb(87, 88, 90);
 }
 
-.searchBox::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+.searchBox::-webkit-input-placeholder {
   text-align: center;
 }

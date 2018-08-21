@@ -1,38 +1,59 @@
-.photoContainer {
+.imgContainer{
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 10px;
+  height: 300px;
+  width: 100%;
+  box-shadow:0 10px 6px -6px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
 
 .photoContainer img{
   position: relative;
-  box-sizing: border-box;
-  padding: 10px;
-  float: left;
   width:  100%;
-  height: 300px;
+  height: 250px;
   cursor: pointer;
-  box-shadow:0 10px 6px -6px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-  -webkit-transition: transform 1s;
-  transition: transform 1s;
 }
 
-.photoContainer img.imgeven:hover{
-  -webkit-transform: rotateY(180deg);
-  transform: rotateY(180deg);
+.imgContainer:hover{
+  animation: shake 0.5s;
 }
-
-.photoContainer img.imgodd:hover{
-  -webkit-transform: rotateX(360deg);
-  transform: rotateZ(360deg);
-}
-
 
 @media only screen and (min-width: 500px) {
-  .photoContainer img {
+  .imgContainer{
     width: 50%;
   }
 }
 
 @media only screen and (min-width: 850px) {
-  .photoContainer img {
+  .imgContainer{
     width: 33.33%;
   }
+}
+
+.photoInfo{
+  height: 2em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Special Elite', cursive;
+  cursor: pointer;
+}
+
+.photoInfo a{
+  color: black;
+  text-decoration: none;
+}
+
+.photoInfo:hover{
+  color: grey;
+}
+
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(-1deg); }
+  30% { transform: rotate(1deg); }
+  50% { transform: rotate(0deg); }
+  60% { transform: rotate(1deg); }
+  80% { transform: rotate(-1deg); }
+  100% { transform: rotate(0deg); }
 }
