@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import FlickrApi from './Api/FlickrApi'
 import Photos from './components/Photos';
 import Header from './components/Header';
 import Overlay from './components/Overlay';
@@ -7,23 +8,39 @@ class App extends Component {
   constructor(props) {
     super(props);
       this.state = {
-        photos: [],
+        photos: {},
+        photoData: {},
         overlay: false,
-        err: null,
+        error: null,
       }
   }
 
   componentDidMount() {
-    this.fetchPhotos('landscape')
+    this.getPhotos('landscape')
   }
 
-  fetchPhotos = tag => {
-    //const url = `https://api.flickr.com/services/rest/?method=flickr.photos.getRecent&api_key=${process.env.REACT_APP_API_KEY}&format=json&nojsoncallback=1`
-    const url = `https://api.flickr.com/services/rest/?method=flickr.photos.search&tags=${tag}&api_key=${process.env.REACT_APP_API_KEY}&format=json&nojsoncallback=1&per_page=50&page=1`
-    fetch(url)
-      .then(res => res.json())
-      .then(({ photos }) => this.setState({ photos }))
-      .catch(err => this.setState({ err }))
+  getPhotos = async tag => {
+    try {
+      const photos = await FlickrApi.fetchPhotos(tag)
+      this.setState({ photos })
+    } catch (error) {
+      this.setState({ error });
+    }
+  }
+
+  getPhoto = id => {
+    try {
+      return FlickrApi.fetchPhotoData(id)
+    } catch (error) {
+      this.setState({ error });
+    }
+  }
+
+  getFlickrPage = async id => {
+    this.setState({ photoData: await this.getPhoto(id) },() => {
+      const flickrpage = this.state.photoData.urls.url[0]._content.toString()
+      window.open(flickrpage)
+    })
   }
   
   handleSearch = e => {
@@ -31,34 +48,38 @@ class App extends Component {
     clearTimeout(this.delayed)
     this.delayed = setTimeout(() => {
       if(!search) return
-      this.fetchPhotos(search)
+      this.getPhotos(search)
     }, 1000)
   }
 
-  handleClickPhoto = e => {
-    console.log(e.target.src);
-    this.setState({ overlay: true, photo: e.target.src })
+  handleClickPhoto = async e => {
+    const src = e.target.src
+    this.setState({ photoData: await this.getPhoto(e.target.id) },() => {
+    this.setState({ overlay: true, src })
+    })
   }
 
   handleHidePhoto = () => {
-    this.setState({ overlay: false, photo: undefined })
+    this.setState({ overlay: false, src: undefined, photoData: {} })
   }
 
   render() {
     return (
       <div className='container'>
         <Header search={this.handleSearch} />
-        {this.state.err
+        {this.state.error
           ? <h2>Oops, something went wrong!</h2>
           : <Photos 
-              photos={this.state.photos && this.state.photos.photo}
-              selected={this.handleClickPhoto} 
+              photos={this.state.photos.photo}
+              selected={this.handleClickPhoto}
+              getPhoto={this.getFlickrPage}
             />
         }
         <Overlay 
-          photo={this.state.photo} 
+          photo={this.state.photoData}
           display={this.state.overlay}
           unselect={this.handleHidePhoto}
+          src={this.state.src}
         />
       </div>
     )
