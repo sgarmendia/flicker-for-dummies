@@ -18,7 +18,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-
+  search: PropTypes.func,
 };
 
 export default Header;

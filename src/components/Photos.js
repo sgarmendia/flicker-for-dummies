@@ -9,13 +9,12 @@ class Photos extends Component {
         {this.props.photos && this.props.photos.map((photo,i) => {
           const src = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`
           return (
-            <div key={photo.id}>
-                <img src={src} 
-                     alt={photo.title} 
-                     className={i%2 === 0 ? 'imgeven' : 'imgodd'}
+            <div key={photo.id} className='imgContainer'>
+                <img src={src} alt={photo.title}
                      onClick={this.props.selected}
+                     id={photo.id}
                 />
-                {/* <p>{photo.title}</p> */}
+                <div className='photoInfo' onClick={()=>this.props.getPhoto(photo.id)}>{photo.title}</div> 
             </div>
           )
         })}
@@ -25,7 +24,9 @@ class Photos extends Component {
 }
 
 Photos.propTypes = {
-  photos : PropTypes.array,
+  photos: PropTypes.array,
+  selected: PropTypes.func,
+  getPhoto: PropTypes.func,
 };
 
 export default Photos;
