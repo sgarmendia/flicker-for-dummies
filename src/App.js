@@ -16,15 +16,16 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.mounted = true
     this.getPhotos('landscape')
   }
 
   getPhotos = async tag => {
     try {
       const photos = await FlickrApi.fetchPhotos(tag)
-      this.setState({ photos })
+      if(this.mounted) { this.setState({ photos }) }
     } catch (error) {
-      this.setState({ error });
+      if(this.mounted) { this.setState({ error }) }
     }
   }
 
@@ -62,6 +63,11 @@ class App extends Component {
   handleHidePhoto = () => {
     this.setState({ overlay: false, src: undefined, photoData: {} })
   }
+
+  componentWillUnmount() {
+    this.mounted = false
+  }
+  
 
   render() {
     return (
